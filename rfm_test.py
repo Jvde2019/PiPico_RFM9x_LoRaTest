@@ -95,44 +95,9 @@ while True:
         display = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
 # Alternatively you can change the I2C address of the device with an addr parameter:
 #display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c, addr=0x31)
-
-# Clear the display.  Always call show after changing pixels to make the display
-# update visible!
-#         display.fill(0)
-# 
-#         display.show()
-# 
-# # Set a pixel in the origin 0,0 position.
-#         display.pixel(0, 0, 1)
-# # Set a pixel in the middle 64, 16 position.
-#         display.pixel(64, 16, 1)
-# # Set a pixel in the opposite 127, 31 position.
-#         display.pixel(127, 31, 1)
-#         display.show()
         display.fill(0)
-#    button = 1  # Read button switch
-        #pot = 100
-        #msg = "Pot RAW: " + str(pot) +"   "
         display.text("RFM 9x LoRa-Test",0,0,2)
-        #power = int(255 * pot / 65300)  # Range 0 to 255
-        #msg = "Power: " + str(power)+"   "
         msg = "signal: "+str (rssi)+" dB"
         display.text(msg,0, 18,1)
-        #display.text("  ? C", 90,20,1)   # No temperature sensor fitted
         display.text(packet_text,0,28,2)
-#    deg(110,20)                   # Degree character
-        #val = int(power * 100 / 255)  # Range 0 to 100 ('T')
-#    showgraph(val)
-#     if button == 1:  # This is the slow part of the loop
-#         oled.text("1",6,34,1)
-#         char(16, 30, up_arrow)    # Defined characters
-#         char(34, 30, smiley)      # when button UP
-#         char(54, 30, heart)
-#         oled.text("True", 80,36,1)
-#     else:
-#         oled.text("0",6,34,1)
-#         char(16, 30, down_arrow)  # Defined characters
-#         char(34, 30, sad)         # when button pressed
-#         char(54, 30, b_heart)
-#         oled.text("False",80,36,1)
         display.show()
