@@ -16,7 +16,10 @@ import busio
 import adafruit_ssd1306
 # Create the I2C interface.
 i2c = busio.I2C(SCL, SDA)
-
+# Create the SSD1306 OLED class.
+# The first two parameters are the pixel width and pixel height.  Change these
+# to the right size for your display!
+display = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
 # Define radio parameters.
 RADIO_FREQ_MHZ = 868.0
 #RADIO_FREQ_MHZ = 915.0  # Frequency of the radio in Mhz. Must match your
@@ -60,6 +63,16 @@ print("Sent Hello World message!")
 # and receiving a single message at a time.
 print("Waiting for packets...")
 
+def horiz(l,r,t,c):  # left, right ,top, colour
+    n = r-l+1        # Horizontal line
+    for i in range(n):
+        display.pixel(l + i, t , c)
+        
+def block(l,r,t,b,c):  # left, right, top, bottom, colour
+    n = b-t+1          # Solid rectangle
+    for i in range(n):
+        horiz(l,r,t+i,c)  # One line at a time
+        
 while True:
     packet = rfm9x.receive()
     # Optionally change the receive timeout from its default of 0.5 seconds:
@@ -92,12 +105,17 @@ while True:
         # Create the SSD1306 OLED class.
 # The first two parameters are the pixel width and pixel height.  Change these
 # to the right size for your display!
-        display = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
+        #display = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
 # Alternatively you can change the I2C address of the device with an addr parameter:
 #display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c, addr=0x31)
         display.fill(0)
+        #block(0,128,10,64,0)
         display.text("RFM 9x LoRa-Test",0,0,2)
-        msg = "signal: "+str (rssi)+" dB"
-        display.text(msg,0, 18,1)
-        display.text(packet_text,0,28,2)
+        display.text("Receiving ...  ",0,16,1)
+        display.text(packet_text,0,26,1)
+        display.text("Transmitting ...  ",0,36,1)
+        display.text(packet_text,0,46,1)
+        msg = "RSSI: "+str (rssi)+" dB"
+        display.text(msg,0,56,1)
+        
         display.show()
